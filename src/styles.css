@@ -88,4 +88,17 @@
   .game-info {
     margin-left: 20px;
   }
+
+  .game-left {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  
+  .current-move {
+    color: #333; 
+    margin-bottom: 10px; 
+    font-weight: bold; 
+    text-align: center; 
+  }  
   
