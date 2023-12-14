@@ -25,7 +25,7 @@ function Board({ squares, onPlay, winningSquares }) {
     if (calculateWinner(squares).winner || squares[i]) return;
     const nextSquares = squares.slice();
     nextSquares[i] = squares.filter(Boolean).length % 2 === 0 ? 'X' : 'O';
-    onPlay(nextSquares);
+    onPlay(nextSquares, i);
   };
 
   const createBoard = () => {
@@ -48,11 +48,11 @@ function Board({ squares, onPlay, winningSquares }) {
 }
 
 export default function Game() {
-  const [history, setHistory] = useState([Array(9).fill(null)]);
+  const [history, setHistory] = useState([{ squares: Array(9).fill(null), moveLocation: null }]);
   const [currentMove, setCurrentMove] = useState(0);
-  const xIsNext = currentMove % 2 === 0;
-  const currentSquares = history[currentMove];
   const [isAscending, setIsAscending] = useState(true);
+  const xIsNext = currentMove % 2 === 0;
+  const currentSquares = history[currentMove].squares;
   const currentResult = calculateWinner(currentSquares);
   const winner = currentResult.winner;
   const winningSquares = currentResult.line;
@@ -66,20 +66,26 @@ export default function Game() {
     status = 'Next player: ' + (xIsNext ? 'X' : 'O');
   }
 
-  const handlePlay = (nextSquares) => {
-    const nextHistory = history.slice(0, currentMove + 1).concat([nextSquares]);
+  const handlePlay = (nextSquares, index) => {
+    const row = Math.floor(index / 3) + 1;
+    const col = (index % 3) + 1;
+    const moveLocation = `(${row}, ${col})`;
+
+    const nextHistory = history.slice(0, currentMove + 1).concat([{ squares: nextSquares, moveLocation }]);
     setHistory(nextHistory);
     setCurrentMove(nextHistory.length - 1);
   };
 
-  const moves = history.map((_, move) => {
-    const desc = move ? `Go to move #${move}` : 'Go to game start';
+  const moves = history.map((step, move) => {
+    const desc = move ?
+      `Go to move #${move} ${step.moveLocation}` :
+      'Go to game start';
     return (
       <li key={move}>
         <button onClick={() => setCurrentMove(move)}>{desc}</button>
       </li>
     );
-  }).sort((a, b) => isAscending ? a.key - b.key : b.key - a.key);;
+  }).sort((a, b) => isAscending ? a.key - b.key : b.key - a.key);
 
   return (
     <div className="game">
