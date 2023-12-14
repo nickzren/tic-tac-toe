@@ -9,3 +9,7 @@ npm install
 
 npm start
 ```
+
+### Demo
+
+Check out the live demo [here](https://nickzren.github.io/tic-tac-toe/).
