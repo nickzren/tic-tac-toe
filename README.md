@@ -12,4 +12,4 @@ npm start
 
 ### Demo
 
-Check out the live demo [here](https://nickzren.github.io/tic-tac-toe/).
+Check out the live demo <a href="https://nickzren.github.io/tic-tac-toe/" target="_blank">here</a>
