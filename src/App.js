@@ -20,27 +20,25 @@ function Board({ xIsNext, squares, onPlay }) {
     onPlay(nextSquares);
   };
 
+  const createBoard = () => {
+    let board = [];
+    for (let row = 0; row < 3; row++) {
+      let boardRow = [];
+      for (let col = 0; col < 3; col++) {
+        boardRow.push(renderSquare(row * 3 + col));
+      }
+      board.push(<div key={row} className="board-row">{boardRow}</div>);
+    }
+    return board;
+  }
+
   const winner = calculateWinner(squares);
   const status = winner ? `Winner: ${winner}` : `Next player: ${xIsNext ? 'X' : 'O'}`;
 
   return (
     <>
       <div className="status">{status}</div>
-      <div className="board-row">
-        {renderSquare(0)}
-        {renderSquare(1)}
-        {renderSquare(2)}
-      </div>
-      <div className="board-row">
-        {renderSquare(3)}
-        {renderSquare(4)}
-        {renderSquare(5)}
-      </div>
-      <div className="board-row">
-        {renderSquare(6)}
-        {renderSquare(7)}
-        {renderSquare(8)}
-      </div>
+      {createBoard()}
     </>
   );
 }
